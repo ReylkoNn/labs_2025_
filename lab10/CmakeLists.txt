@@ -1,0 +1,19 @@
+# Минимальная версия CMake
+cmake_minimum_required(VERSION 3.10)
+
+# Название проекта
+project(LogAnalyzer)
+
+# Установка стандарта C++ (C++11 для регулярных выражений)
+set(CMAKE_CXX_STANDARD 11)
+
+# Создание исполняемого файла из исходных файлов
+add_executable(log_analyzer
+    src/main.cpp
+    src/log_analyzer.cpp
+)
+
+# Для поддержки UTF-8 на Windows
+if(WIN32)
+    target_compile_definitions(log_analyzer PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
