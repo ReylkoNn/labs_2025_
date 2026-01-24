@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <clocale>
+#include <ctime>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ private:
     string brand;
     string model;
     int year;
-    double mileage;
+    double kilometrage; // километраж (не mileage - мили)
 
 public:
     // Конструктор по умолчанию
@@ -18,12 +19,12 @@ public:
         brand = "Unknown";
         model = "Unknown";
         year = 2020;
-        mileage = 0;
+        kilometrage = 0;
     }
 
     // Параметризованный конструктор с member initializer list
-    Car(string br, string md, int yr, double mil)
-        : brand(br), model(md), year(yr), mileage(mil) {
+    Car(string br, string md, int yr, double km)
+        : brand(br), model(md), year(yr), kilometrage(km) {
     }
 
     // Деструктор
@@ -35,27 +36,32 @@ public:
     string getBrand() { return brand; }
     string getModel() { return model; }
     int getYear() { return year; }
-    double getMileage() { return mileage; }
+    double getKilometrage() { return kilometrage; }
 
     // Сеттеры
     void setBrand(string br) { brand = br; }
     void setModel(string md) { model = md; }
     void setYear(int yr) { year = yr; }
-    void setMileage(double mil) { mileage = mil; }
+    void setKilometrage(double km) { kilometrage = km; }
 
     // Метод 1: Увеличение пробега
-    void addMileage(double km) {
-        mileage += km;
+    void addKilometrage(double km) {
+        kilometrage += km;
     }
 
     // Метод 2: Проверка техобслуживания (каждые 15000 км)
     bool needsMaintenance() {
-        return mileage >= 15000;
+        return kilometrage >= 15000;
     }
 
-    // Метод 3: Возраст автомобиля
+    // Метод 3: Возраст автомобиля (получение текущего года из системы)
     int getAge() {
-        return 2024 - year;
+        // Получаем текущий год из системы
+        time_t now = time(0);
+        tm* ltm = localtime(&now);
+        int currentYear = 1900 + ltm->tm_year;
+
+        return currentYear - year;
     }
 
     // Вывод информации
@@ -63,7 +69,7 @@ public:
         cout << "Марка: " << brand << endl;
         cout << "Модель: " << model << endl;
         cout << "Год: " << year << endl;
-        cout << "Пробег: " << mileage << " км" << endl;
+        cout << "Пробег: " << kilometrage << " км" << endl;
         cout << "Возраст: " << getAge() << " лет" << endl;
         cout << "Требуется ТО: " << (needsMaintenance() ? "Да" : "Нет") << endl;
         cout << endl;
@@ -91,13 +97,13 @@ int main() {
     car1.setBrand("BMW");
     car1.setModel("X5");
     car1.setYear(2019);
-    car1.setMileage(20000);
+    car1.setKilometrage(20000);
     car1.displayInfo();
 
     // Использование методов
     cout << "Использование методов для car2:" << endl;
-    car2.addMileage(500);
-    cout << "Новый пробег car2: " << car2.getMileage() << " км" << endl;
+    car2.addKilometrage(500);
+    cout << "Новый пробег car2: " << car2.getKilometrage() << " км" << endl;
     cout << "Нужно ТО: " << (car2.needsMaintenance() ? "Да" : "Нет") << endl;
     cout << "Возраст: " << car2.getAge() << " лет" << endl;
     cout << endl;
@@ -106,16 +112,15 @@ int main() {
     cout << "Работа с указателем (car3):" << endl;
     Car* car3 = new Car("Mercedes", "E-Class", 2018, 45000);
     car3->displayInfo();
-    car3->addMileage(1000);
-    cout << "Пробег после поездки: " << car3->getMileage() << " км" << endl;
+    car3->addKilometrage(1000);
+    cout << "Пробег после поездки: " << car3->getKilometrage() << " км" << endl;
     cout << endl;
 
     cout << "Удаление car3:" << endl;
-    delete car3; // удаление объекта
+    delete car3;
 
     cout << endl << "=== Завершение программы ===" << endl;
 
-    // Пауза перед завершением
     system("pause");
 
     return 0;
