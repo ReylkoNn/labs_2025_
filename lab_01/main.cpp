@@ -69,5 +69,54 @@ public:
         cout << endl;
     }
 };
+
+int main() {
+    // Настройка кодировки для русского языка
+    setlocale(LC_ALL, "Russian");
+
+    cout << "=== Программа запущена ===" << endl << endl;
+
+    // Создание объекта по умолчанию
+    cout << "Объект 1 (по умолчанию):" << endl;
+    Car car1;
+    car1.displayInfo();
+
+    // Создание объекта с параметрами
+    cout << "Объект 2 (с параметрами):" << endl;
+    Car car2("Toyota", "Camry", 2020, 30000);
+    car2.displayInfo();
+
+    // Использование сеттеров
+    cout << "Изменение объекта 1 через сеттеры:" << endl;
+    car1.setBrand("BMW");
+    car1.setModel("X5");
+    car1.setYear(2019);
+    car1.setMileage(20000);
+    car1.displayInfo();
+
+    // Использование методов
+    cout << "Использование методов для car2:" << endl;
+    car2.addMileage(500);
+    cout << "Новый пробег car2: " << car2.getMileage() << " км" << endl;
+    cout << "Нужно ТО: " << (car2.needsMaintenance() ? "Да" : "Нет") << endl;
+    cout << "Возраст: " << car2.getAge() << " лет" << endl;
+    cout << endl;
+
+    // Работа с указателями (оператор ->)
+    cout << "Работа с указателем (car3):" << endl;
+    Car* car3 = new Car("Mercedes", "E-Class", 2018, 45000);
+    car3->displayInfo();
+    car3->addMileage(1000);
+    cout << "Пробег после поездки: " << car3->getMileage() << " км" << endl;
+    cout << endl;
+
+    cout << "Удаление car3:" << endl;
+    delete car3; // удаление объекта
+
+    cout << endl << "=== Завершение программы ===" << endl;
+
+    // Пауза перед завершением
+    system("pause");
+
     return 0;
 }
